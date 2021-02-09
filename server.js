@@ -169,3 +169,30 @@ inquirer
     }
 );
 };
+
+function addDept(){
+    inquirer
+        .prompt([
+            {
+                name: "deptName",
+                type: "input",
+                message: "What Department would you like to add?"
+            },
+        ])
+        .then(function (res) {
+            console.log(res)
+            // when finished prompting, insert a new item into the db with that info
+            var query = connection.query(
+                "INSERT INTO departments SET ?",
+                {
+                    name: res.deptName
+                },
+                function (err, res) {
+                   connection.query("SELECT * FROM departments", function(err, res){
+                       console.table(res);
+                       runSearch();
+                   })
+                }
+            )
+        })
+    }
