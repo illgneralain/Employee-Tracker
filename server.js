@@ -148,4 +148,24 @@ function removeEmployee() {
         employeeList.push(res[i].first_name + "" + res[i].last_name);
       }
 inquirer
-.prompt ([])
+.prompt ([
+    {
+        name: "employee",
+        type: "list",
+        message: "Which employee would you like to delete?",
+        choices: employeeList
+    },
+])
+    .then(function(res){
+        var query = connection.query(
+            `DELETE FROM employees WHERE concat(first_name, ' ',last_name) = '${res.employee}'`,
+            function (err, res) {
+                if (err) throw err;
+                console.log("Employee removed!\n");
+                // re-prompt the user
+                runSearch();
+    });
+    });
+    }
+);
+};
