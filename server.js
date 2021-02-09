@@ -139,3 +139,13 @@ function employeeView() {
         runSearch();
     });
 }
+function removeEmployee() {
+   var employeeList = [];
+    connection.query(
+      "SELECT employees.first_name, employees.last_name FROM employees", (err, res) => {
+          for (var i = 0; i < res.length; i++)
+      {
+        employeeList.push(res[i].first_name + "" + res[i].last_name);
+      }
+inquirer
+.prompt ([])
