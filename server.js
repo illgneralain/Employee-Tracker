@@ -38,9 +38,9 @@ connection.connect(function(err) {
           "Exit"
         ]
       })
-      .then(function(answer) {
-        switch (answer.action) {
-        case "Find songs by artist":
+      .then(function(res) {
+        switch (res.runSearch) {
+        case "Add Employee":
           artistSearch();
           break;
   
