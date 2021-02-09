@@ -35,31 +35,102 @@ connection.connect(function(err) {
           "View all roles",
           "Update Employee Role",
           "View all departments",
-          "Exit"
+          "Terminate"
         ]
       })
       .then(function(res) {
         switch (res.runSearch) {
         case "Add Employee":
-          artistSearch();
+          addEmployee();
           break;
   
-        case "Find all artists who appear more than once":
-          multiSearch();
+        case "Add role":
+          addRole();
           break;
   
-        case "Find data within a specific range":
-          rangeSearch();
+        case "Add department":
+          addDept();
           break;
   
-        case "Search for a specific song":
-          songSearch();
+        case "View all employees":
+          employeeView();
           break;
   
-        case "Find artists with a top song and top album in the same year":
-          songAndAlbumSearch();
+        case "Remove employee":
+          removeEmployee();
+          break;
+
+          case "View all roles":
+          viewRoles();
+          break;
+  
+        case "Update Employee Role":
+          updateEmployeeRole();
+          break;
+  
+        case "View all departments":
+          departmentView();
+          break;
+
+          case "Terminate":
+          connection.end();
           break;
         }
       });
   }
   
+  // function to handle posting new employees
+function addEmployee() {
+    console.log("inserting a new employee.\n");
+    // prompt for info about new employee
+    inquirer
+      .prompt([
+        {
+          name: "first_name",
+          type: "input",
+          message: "First Name?"
+        },
+        {
+          name: "last_name",
+          type: "input",
+          message: "Last Name?"
+        },
+        {
+          name: "role_id",
+          type: "list",
+          message: "What is the employee's role?",
+          choices: [1, 2, 3]
+        },
+        {
+          name: "manager_id",
+          type: "input",
+          message: "Who is their manager?"
+        }
+    ])
+        //   validate: function(value) {
+        //     if (isNaN(value) === false) {
+        //       return true;
+        //     }
+        //     return false;
+        //   }
+        // }
+   //   ])
+
+      .then(function(res) {
+        // when finished prompting, insert a new item into the db with that info
+        var query = connection.query(
+            "INSERT INTO employees SET ?",
+            {
+              flavor: "Rocky Road",
+              price: 3.0,
+              quantity: 50
+            },
+            function(err, res) {
+              if (err) throw err;
+            console.log("Employee successfully added!\n");
+            // re-prompt the user
+            runSearch();
+          }
+        );
+      });
+  }
