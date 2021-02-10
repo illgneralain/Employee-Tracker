@@ -1,7 +1,10 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+const cTable = require("console.table");
+const db = require(".");
 
-var connection = mysql.createConnection({
+
+const connection = mysql.createConnection({
     host: "localhost",
 
     // Your port; if not 3306
@@ -11,8 +14,8 @@ var connection = mysql.createConnection({
     user: "root",
 
     // Your password
-    password: "password123",
-    database: "employee-tracker"
+    password: "!llgnerAlain15",
+    database: "employee_DB"
 });
 
 connection.connect(function (err) {
@@ -106,7 +109,7 @@ function addEmployee() {
                 type: "input",
                 message: "Who is their manager?"
             }
-        ])
+        
         //   validate: function(value) {
         //     if (isNaN(value) === false) {
         //       return true;
@@ -114,7 +117,7 @@ function addEmployee() {
         //     return false;
         //   }
         // }
-        //   ])
+          ])
 
         .then(function (res) {
             // when finished prompting, insert a new item into the db with that info
