@@ -250,3 +250,42 @@ function addRole() {
     })
 })
 }
+
+function viewRoles(){
+    connection.query("SELECT roles.*, departments.name FROM roles LEFT JOIN departments ON departments.id = roles.department_id", function(err, res){
+        console.table(res);
+        runSearch();
+    })
+}
+
+function updateEmployeeRole(){
+    connection.query("SELECT first_name, last_name, id FROM employees",
+    function(err, res){
+        var employees = res.map(employee => ({name: employee.first_name + "" + employee.last_name, value: employee.id}))
+        
+inquirer
+ .prompt ([
+     {
+         name: "employeeName",
+         type: "list",
+        message: "Which employee's role would you like to update??",
+        choices: employees
+     },
+     {
+        name: "role",
+        type: "input",
+       message: "What is your new role?",
+    }
+
+ ])
+ .then(function(res){
+     connection.query(`UPDATE employees SET role_id = ${res.role} WHERE id = ${res.employeeName} `,
+     function (err, res){
+         console.log(res);
+         runSearch()
+     }
+     );
+})
+    }
+    )
+}
