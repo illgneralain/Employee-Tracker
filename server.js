@@ -196,3 +196,57 @@ function addDept(){
             )
         })
     }
+
+function departmentView(){
+    connection.query ("SELECT * FROM departments", function(err, res){
+        console.table(res);
+        runSearch();
+    })
+}
+
+function addRole() {
+    var departments = [];
+     connection.query(
+       "SELECT * FROM departments", function(err, res){
+       if(err) throw err;
+        for (var i = 0; i < res.length; i++)
+       {
+           res[i].first_name + " " + res[i].last_name
+         departments.push({name: res[i].name, value: res[i].id});
+       }
+ inquirer
+ .prompt ([
+     {
+         name: "title",
+         type: "input",
+        message: "What role would you like to add?",
+     },
+     {
+        name: "salary",
+        type: "input",
+       message: "What is the salary for this role?",
+    },
+    {
+        name: "department",
+        type: "list",
+       message: "Which department?",
+       choices: departments
+    }
+ ])
+     .then(function(res){
+         var query = connection.query(
+             "INSERT INTO roles SET ?", 
+             {
+                 title: res.title,
+                 salary: res.salary,
+                 department_id: res.department
+             },
+             function (err, res) {
+                 if (err) throw err;
+                 // re-prompt the user
+                 runSearch();
+     }
+     )
+    })
+})
+}
